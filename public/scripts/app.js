@@ -1,25 +1,23 @@
-'use strict';
+"use strict";
 
-var nameVar = 'Vaibhav';
-var nameVar = 'Sidapara';
-nameVar = 'VS';
-console.log('nameVar', nameVar);
+var square = function square(x) {
+  return x * x;
+};
+console.log(square(2));
 
-var nameLet = 'Vaibhav';
-nameLet = 'Sidapara';
-console.log('nameLet', nameLet);
+//  Arrow Functions
 
-var nameConst = 'Vaibhav';
-console.log('nameConst', nameConst);
+var squareArrow = function squareArrow(x) {
+  return x * x;
+};
+console.log(squareArrow(3));
 
-// Block Scoping
+var squareArrowTwo = function squareArrowTwo(x) {
+  return x * x;
+};
+console.log(squareArrowTwo(2));
 
-var fullName = 'Vaibhav Sidapara';
-var firstName = void 0;
-
-if (fullName) {
-   firstName = fullName.split(" ")[0];
-   console.log(firstName);
-}
-
-console.log(firstName);
+var getFirstName = function getFirstName(fullName) {
+  return fullName.split(" ")[0];
+};
+console.log(getFirstName('Vaibhav Sidapara'));
