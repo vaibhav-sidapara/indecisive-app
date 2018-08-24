@@ -2,12 +2,12 @@ console.log('App.js is running.');
 
 // JSX - JavaScript XML
 
-var app = {
+const app = {
     'title': 'Indecisive App',
     'subTitle' : 'Random Generator',
 };
 
-var template = (
+const template = (
     <div>
         <h1>{app.title}</h1>
         <p>{app.subTitle}</p>
@@ -18,13 +18,36 @@ var template = (
     </div>
 );
 
-var template2 = (
-    <div>
-        <h1>Vaibhav Sidapara</h1>
-        <p>Age: 26</p>
-        <p>Location: Singapore</p>
-    </div>
-);
-var appRoot = document.getElementById('app');
+let count = 0;
 
-ReactDOM.render(template, appRoot);
+const addOne = () => {
+    count++;
+    renderCounterApp();
+};
+
+const minusOne = () => {
+    count--;
+    renderCounterApp();
+};
+
+const reset = () => {
+    count = 0;
+    renderCounterApp();
+};
+
+const appRoot = document.getElementById('app');
+
+const renderCounterApp = () => {
+    const templateTwo = (
+        <div>
+            <h1>Count: {count}</h1>
+            <button onClick={addOne}>+1</button>
+            <button onClick={minusOne}>-1</button>
+            <button onClick={reset}>Reset</button>
+        </div>
+    );
+
+    ReactDOM.render(templateTwo, appRoot);
+};
+
+renderCounterApp();
