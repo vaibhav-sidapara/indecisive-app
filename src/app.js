@@ -3,51 +3,63 @@ console.log('App.js is running.');
 // JSX - JavaScript XML
 
 const app = {
-    'title': 'Indecisive App',
-    'subTitle' : 'Random Generator',
+    title: 'Indecisive App',
+    subTitle : 'Random Generator',
+    options: []
 };
 
-const template = (
-    <div>
-        <h1>{app.title}</h1>
-        <p>{app.subTitle}</p>
-        <ol>
-            <li>Item one</li>
-            <li>Item two</li>
-        </ol>
-    </div>
-);
+const onFormSubmit = (e) => {
+    e.preventDefault();
 
-let count = 0;
+    const option = e.target.elements.option.value;
 
-const addOne = () => {
-    count++;
-    renderCounterApp();
+    if(option) {
+        app.options.push(option);
+        e.target.elements.option.value = '';
+
+        renderApp();
+    }
 };
 
-const minusOne = () => {
-    count--;
-    renderCounterApp();
+const removeAll = () => {
+    app.options = [];
+    renderApp();
 };
 
-const reset = () => {
-    count = 0;
-    renderCounterApp();
+const makeDecision = () => {
+    const randomNumber = Math.floor( Math.random() * app.options.length );
+    const option = app.options[randomNumber];
+
+    alert(option);
 };
 
 const appRoot = document.getElementById('app');
 
-const renderCounterApp = () => {
-    const templateTwo = (
+const renderApp = () => {
+    const template = (
         <div>
-            <h1>Count: {count}</h1>
-            <button onClick={addOne}>+1</button>
-            <button onClick={minusOne}>-1</button>
-            <button onClick={reset}>Reset</button>
+            <h1>{app.title}</h1>
+            <p>{app.subTitle}</p>
+
+            <p>{app.options.length > 0 ? 'Here are your options' : 'No Options'}</p>
+            <button onClick={makeDecision} disabled={app.options.length <= 0}>What should I do ?</button>
+            <button onClick={removeAll}>Remove All</button>
+            <ol>
+                {
+                    app.options.map((option, index) => {
+                        return <li key={index}>{option}</li>;
+                    })
+                }
+            </ol>
+
+            <form onSubmit={onFormSubmit}>
+                <input type="text" name="option" autoFocus={1}/>
+                <button>Add Option</button>
+            </form>
         </div>
     );
 
-    ReactDOM.render(templateTwo, appRoot);
+    ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+renderApp();
