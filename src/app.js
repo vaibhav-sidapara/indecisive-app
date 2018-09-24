@@ -6,7 +6,7 @@ class IndecisiveApp extends React.Component {
 
         return (
             <div>
-                <Header title={title} subtitle={subtitle}/>
+                <Header title={title} subtitle={subtitle} />
                 <Action />
                 <Options options={options} />
                 <AddOption />
@@ -41,8 +41,15 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.removeAll = this.removeAll.bind(this);
+    }
+
     removeAll() {
-        alert('Removed');
+        console.log(this.props.options);
+        // alert('Removed');
     }
 
     render() {
