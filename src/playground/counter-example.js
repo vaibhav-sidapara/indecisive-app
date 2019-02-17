@@ -23,15 +23,17 @@ class Counter extends React.Component {
 
     minusOne() {
         this.setState((prevState) => {
-            return {
-                count: prevState.count - 1
-            };
+            if(prevState.count > 0) {
+                return {
+                    count: prevState.count - 1
+                };
+            }
         });
         console.log('-1');
     }
 
     reset() {
-        this.setState((prevState) => {
+        this.setState(() => {
             return {
                 count: 0
             };
