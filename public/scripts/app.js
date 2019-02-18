@@ -17,11 +17,12 @@ var IndecisiveApp = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (IndecisiveApp.__proto__ || Object.getPrototypeOf(IndecisiveApp)).call(this, props));
 
         _this.handleRemoveOptions = _this.handleRemoveOptions.bind(_this);
+        _this.handleRemoveOption = _this.handleRemoveOption.bind(_this);
         _this.handlePickOption = _this.handlePickOption.bind(_this);
         _this.handleAddOption = _this.handleAddOption.bind(_this);
 
         _this.state = {
-            options: []
+            options: props.options
         };
         return _this;
     }
@@ -30,8 +31,17 @@ var IndecisiveApp = function (_React$Component) {
         key: 'handleRemoveOptions',
         value: function handleRemoveOptions() {
             this.setState(function () {
+                return { options: [] };
+            });
+        }
+    }, {
+        key: 'handleRemoveOption',
+        value: function handleRemoveOption(optionToRemove) {
+            this.setState(function (prevState) {
                 return {
-                    options: []
+                    options: prevState.options.filter(function (option) {
+                        return optionToRemove !== option;
+                    })
                 };
             });
         }
@@ -53,9 +63,7 @@ var IndecisiveApp = function (_React$Component) {
             }
 
             this.setState(function (prevState) {
-                return {
-                    options: prevState.options.concat(option)
-                };
+                return { options: prevState.options.concat(option) };
             });
         }
     }, {
@@ -74,7 +82,8 @@ var IndecisiveApp = function (_React$Component) {
                 }),
                 React.createElement(Options, {
                     options: this.state.options,
-                    handleRemoveOptions: this.handleRemoveOptions
+                    handleRemoveOptions: this.handleRemoveOptions,
+                    handleRemoveOption: this.handleRemoveOption
                 }),
                 React.createElement(AddOption, {
                     handleAddOption: this.handleAddOption
@@ -85,6 +94,10 @@ var IndecisiveApp = function (_React$Component) {
 
     return IndecisiveApp;
 }(React.Component);
+
+IndecisiveApp.defaultProps = {
+    options: []
+};
 
 var Header = function Header(props) {
     return React.createElement(
@@ -128,7 +141,11 @@ var Options = function Options(props) {
             'Remove All'
         ),
         props.options.map(function (option, index) {
-            return React.createElement(Option, { key: index, option: option });
+            return React.createElement(Option, {
+                key: index,
+                option: option,
+                handleRemoveOption: props.handleRemoveOption
+            });
         })
     );
 };
@@ -137,7 +154,14 @@ var Option = function Option(props) {
     return React.createElement(
         'div',
         null,
-        props.option
+        props.option,
+        React.createElement(
+            'button',
+            { onClick: function onClick(e) {
+                    props.handleRemoveOption(props.option);
+                } },
+            'Remove Option'
+        )
     );
 };
 
