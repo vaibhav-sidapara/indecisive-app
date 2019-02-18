@@ -28,6 +28,26 @@ var IndecisiveApp = function (_React$Component) {
     }
 
     _createClass(IndecisiveApp, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            try {
+                var json = localStorage.getItem('options');
+                var options = JSON.parse(json);
+
+                if (options) this.setState(function () {
+                    return { options: options };
+                });
+            } catch (e) {}
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+            if (prevState.options.length !== this.state.options.length) {
+                var json = JSON.stringify(this.state.options);
+                localStorage.setItem('options', json);
+            }
+        }
+    }, {
         key: 'handleRemoveOptions',
         value: function handleRemoveOptions() {
             this.setState(function () {
@@ -57,7 +77,7 @@ var IndecisiveApp = function (_React$Component) {
         key: 'handleAddOption',
         value: function handleAddOption(option) {
             if (!option) {
-                return 'Enter some valid value to add option';
+                return 'Enter some valid value to add option.';
             } else if (this.state.options.indexOf(option) > -1) {
                 return 'Option already exist';
             }
@@ -192,6 +212,8 @@ var AddOption = function (_React$Component2) {
             this.setState(function () {
                 return { error: error };
             });
+
+            if (!error) e.target.elements.option.value = "";
         }
     }, {
         key: 'render',

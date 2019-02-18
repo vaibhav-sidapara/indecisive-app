@@ -12,6 +12,24 @@ class IndecisiveApp extends React.Component {
         }
     }
 
+    componentDidMount() {
+        try {
+            const json = localStorage.getItem('options');
+            const options = JSON.parse(json);
+
+            if(options) this.setState(() => ({options}));
+        } catch (e) {
+
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.options.length !== this.state.options.length) {
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem('options', json);
+        }
+    }
+
     handleRemoveOptions() {
         this.setState(() => ({ options: [] }));
     }
@@ -31,7 +49,7 @@ class IndecisiveApp extends React.Component {
 
     handleAddOption(option) {
         if(!option) {
-            return 'Enter some valid value to add option'
+            return 'Enter some valid value to add option.'
         } else if(this.state.options.indexOf(option) > -1) {
             return 'Option already exist'
         }
@@ -137,6 +155,8 @@ class AddOption extends React.Component {
         const error = this.props.handleAddOption(option);
 
         this.setState(() => ({ error }));
+
+        if(!error) e.target.elements.option.value = "";
     }
 
     render() {
